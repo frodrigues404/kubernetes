@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: default-backend
+  namespace: ingress
+  labels:
+    app: default-backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: default-backend
+  template:
+    metadata:
+      labels:
+        app: default-backend
+    spec:
+      terminationGracePeriodSeconds: 60 #Tempo para forçar o kill no pod
+      containers:
+      - name: default-backend
+        image: gcr.io/google_containers/defaultbackend:1.0
+        livenessProbe: # Health check
+          httpGet:
+            path: /healthz
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 30 # Delay de helth check
+          timeoutSeconds: 5
+        ports:
+        - containerPort: 80
+        resources:
+          limits:
+            cpu: 10m
+            memory: 20Mi
+          requests:
+            cpu: 10m
+            memory: 20Mi

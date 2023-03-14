@@ -4,17 +4,33 @@ metadata:
   labels:
     app: nginx-deployment
   name: nginx-deployment
+  namespace: nginx
 spec:
   replicas: 3
+  revisionHistoryLimit: 10 # kubectl rollout history deployment -n nginx nginx-deployment
   selector:
     matchLabels:
       app: nginx-deployment
-  strategy: {}
+  strategy:
+    type: RollingUpdate # Atualização sem indisponibilidade
+    rollingUpdate: 
+      maxSurge: 1 # Máximo de pods extras
+      maxUnavailable: 2 # Máximo de pods down
   template: 
     metadata:
         labels:
           app: nginx-deployment
     spec:
       containers:
-      - image: nginx
+      - image: nginx:1.23.3
         name: nginx
+<<<<<<< HEAD
+=======
+        # resources:
+        #   limits:
+        #     cpu: "0.5"
+        #     memory: 500Mi
+        #   requests:
+        #     cpu: "0.3"
+        #     memory: 250Mi
+>>>>>>> c8449881f3339e12e65b2339ebd638cba8ec5b1f
