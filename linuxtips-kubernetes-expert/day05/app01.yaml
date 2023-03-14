@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app01
+spec:
+  replicas: 2
+  revisionHistoryLimit: 10 # kubectl rollout history deployment -n nginx nginx-deployment
+  selector:
+    matchLabels:
+      app: app01
+  strategy:
+    type: RollingUpdate # Atualização sem indisponibilidade
+    rollingUpdate: 
+      maxSurge: 1 # Máximo de pods extras
+      maxUnavailable: 2 # Máximo de pods down
+  template: 
+    metadata:
+        labels:
+          app: app01
+    spec:
+      containers:
+      - image: nginx
+        name: static-site
+        env:
+        - name: AUTHOR
+          value: Fernando
+        ports:
+        - containerPort: 80
