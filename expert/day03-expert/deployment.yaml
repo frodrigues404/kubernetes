@@ -24,13 +24,11 @@ spec:
       containers:
       - image: nginx:1.23.3
         name: nginx
-<<<<<<< HEAD
-=======
-        # resources:
-        #   limits:
-        #     cpu: "0.5"
-        #     memory: 500Mi
-        #   requests:
-        #     cpu: "0.3"
-        #     memory: 250Mi
->>>>>>> c8449881f3339e12e65b2339ebd638cba8ec5b1f
+        resources:
+          limits:
+            cpu: "0.5"
+            memory: 500Mi
+          requests:
+            cpu: "0.3"
+            memory: 250Mi
+

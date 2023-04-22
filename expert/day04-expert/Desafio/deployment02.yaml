@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mariadb
+  labels:
+    app: mariadb
+spec:
+  strategy:
+      rollingUpdate:
+        maxSurge: 2
+        maxUnavailable: 20%
+  replicas: 3
+  selector:
+    matchLabels:
+      app: mariadb
+  template:
+    metadata:
+      labels:
+        app: mariadb
+    spec:
+      containers:
+      - name: mariadb
+        image: mariadb
+        livenessProbe:
+          tcpSocket:
+            port: 3306
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          failureThreshold: 2
+        readinessProbe:
+          tcpSocket:
+            port: 3306
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          failureThreshold: 2
+        ports:
+        - containerPort: 3306
+        resources:
+          limits:
+            cpu: 0.5
+            memory: 500Mi
+          requests:
+            cpu: 0.3
+            memory: 250Mi

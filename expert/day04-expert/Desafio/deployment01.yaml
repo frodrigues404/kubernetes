@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jenkins
+  labels:
+    app: jenkins
+spec:
+  strategy:
+    rollingUpdate:
+      maxSurge: 3
+      maxUnavailable: 10%
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jenkins
+  template:
+    metadata:
+      labels:
+        app: jenkins
+    spec:
+      containers:
+      - name: jenkins
+        image: jenkins/jenkins:lts
+        livenessProbe:
+          tcpSocket:
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          failureThreshold: 2
+        readinessProbe:
+          exec:
+            command:
+            - curl
+            - -f
+            - http://localhost:80
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          failureThreshold: 2
+        startupProbe:
+          httpGet:
+            path: /
+            port: 80
+          failureThreshold: 30
+          periodSeconds: 10
+
+        ports:
+        - containerPort: 80
+        resources:
+          limits:
+            cpu: 0.5
+            memory: 500Mi
+          requests:
+            cpu: 0.3
+            memory: 250Mi
