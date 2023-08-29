@@ -1,0 +1,15 @@
+apiVersion: v1 
+kind: PersistentVolume
+metadata:
+  name: my-pv
+  labels:
+    storage: fast
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce # RWO - Read Write Once - Apenas um node pode ler e escrever no volume por vez
+  persistentVolumeReclaimPolicy: Retain # Retain - Não apaga o volume quando o PV é deletado
+  hostPath:
+    path: /mnt/data # Caminho do volume no node
+  storageClassName: fast
