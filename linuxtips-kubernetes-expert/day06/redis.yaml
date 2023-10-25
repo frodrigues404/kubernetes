@@ -15,8 +15,13 @@ spec:
         app: redis
     spec:
       containers:
+<<<<<<< HEAD:linuxtips-kubernetes-expert/day06/redis.yaml
       - name: redis
         image: redis
+=======
+      - image: redis:7.0-alpine3.18
+        name: redis
+>>>>>>> 9470cb9de4493e81847303ed1f648aa2ad2585f6:linuxtips-kubernetes-expert/day06-expert/redis.yaml
         ports:
         - containerPort: 6379
         volumeMounts:
