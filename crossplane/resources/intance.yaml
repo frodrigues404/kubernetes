@@ -1,0 +1,7 @@
+apiVersion: ec2.aws.upbound.io/v1beta1
+kind: Instance
+# Removed for brevity
+spec:
+  forProvider:
+    region: sa-east-1
+    instanceType: t2.micro
