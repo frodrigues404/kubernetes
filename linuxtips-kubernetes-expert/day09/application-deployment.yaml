@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: giropops-senhas
+  name: giropops-senhas
+  namespace: default
+spec:
+  replicas: 1
+  revisionHistoryLimit: 10 # kubectl rollout history deployment -n nginx nginx-deployment
+  selector:
+    matchLabels:
+      app: giropops-senhas
+  strategy:
+    type: RollingUpdate # Atualização sem indisponibilidade
+    rollingUpdate: 
+      maxSurge: 1 # Máximo de pods extras
+      maxUnavailable: 2 # Máximo de pods down
+  template: 
+    metadata:
+        labels:
+          app: giropops-senhas
+    spec:
+      containers:
+      - image: linuxtips/giropops-senhas:1.0
+        name: giropops-senhas
+        env:
+        - name: REDIS_HOST
+          value: redis
+        ports:
+        - containerPort: 5000
+        resources:
+          limits:
+            cpu: "0.5"
+            memory: 500Mi
+          requests:
+            cpu: "0.3"
+            memory: 250Mi
+
