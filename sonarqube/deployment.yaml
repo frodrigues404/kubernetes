@@ -36,6 +36,8 @@ spec:
         - name: sonar-volume
           mountPath: /opt/sonarqube/logs
           subPath: logs
+      securityContext:
+        fsGroup: 1000
       initContainers:
        - name: increase-vm-max-map
          image: busybox

@@ -1,25 +1,25 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: sonarqube
+  name: argocd
+  namespace: argocd
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
+    # nginx.ingress.kubernetes.io/rewrite-target: /
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
 spec:
   ingressClassName: nginx
   tls:
   - hosts:
-    - sonarqube.fernandojrlinux.net
     - argocd.fernandojrlinux.net
-    secretName: sonar-tls
+    secretName: argocd-tls
   rules:
-    - host: sonarqube.fernandojrlinux.net
+    - host: argocd.fernandojrlinux.net
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service: 
-                name: sonarqube
+                name: argocd-server
                 port:
-                  number: 80
+                  number: 443

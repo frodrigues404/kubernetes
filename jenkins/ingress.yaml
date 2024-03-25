@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: sonarqube
+  name: jenkins
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
@@ -9,17 +9,16 @@ spec:
   ingressClassName: nginx
   tls:
   - hosts:
-    - sonarqube.fernandojrlinux.net
-    - argocd.fernandojrlinux.net
-    secretName: sonar-tls
+    - jenkins.fernandojrlinux.net
+    secretName: jenkins-tls
   rules:
-    - host: sonarqube.fernandojrlinux.net
+    - host: jenkins.fernandojrlinux.net
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service: 
-                name: sonarqube
+                name: jenkins
                 port:
                   number: 80
